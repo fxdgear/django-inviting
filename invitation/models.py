@@ -1,6 +1,7 @@
 import datetime
 import random
 from django.db import models
+from django.utils import timezone
 from django.core.mail import send_mail
 from django.conf import settings
 from django.template.loader import render_to_string
@@ -137,7 +138,7 @@ class Invitation(models.Model):
         """
         Return ``True`` if the invitation is still valid, ``False`` otherwise.
         """
-        return datetime.datetime.now() < self._expires_at
+        return timezone.now() < self._expires_at
 
     def expiration_date(self):
         """Return a ``datetime.date()`` object representing expiration date.
