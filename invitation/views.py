@@ -1,5 +1,5 @@
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.utils.translation import ugettext
@@ -67,6 +67,8 @@ def invite(request, success_url=None,
     :form:
         The invitation form.
     """
+    if request.user != request.blog.owner.user:
+        return HttpResponseForbidden()
     if request.method == 'POST':
         form = form_class(request.POST, request.FILES)
         if form.is_valid():
@@ -82,8 +84,11 @@ def invite(request, success_url=None,
         form = form_class()
     context = apply_extra_context(RequestContext(request), extra_context)
     return render_to_response(template_name,
-                              {'form': form},
-                              context_instance=context)
+                {
+                    'form': form,
+                    'stats': InvitationStats.objects.get(user=request.user),
+                    'invites': Invitation.objects.filter(user=request.user)
+                }, context_instance=context)
 
 
 def register(request,
