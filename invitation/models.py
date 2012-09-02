@@ -177,23 +177,8 @@ class Invitation(models.Model):
 
         ``invitation.signals.invitation_sent`` is sent on completion.
         """
-        email = email or self.email
-        if site is None:
-            if Site._meta.installed:
-                site = Site.objects.get_current()
-            elif request is not None:
-                site = RequestSite(request)
-        subject = render_to_string('invitation/invitation_email_subject.txt',
-                                   {'invitation': self, 'site': site})
-        # Email subject *must not* contain newlines
-        subject = ''.join(subject.splitlines())
-        message = render_to_string('invitation/invitation_email.txt', {
-            'invitation': self,
-            'expiration_days': app_settings.EXPIRE_DAYS,
-            'site': site
-        })
-        send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [email])
-        signals.invitation_sent.send(sender=self)
+
+        signals.invitation_sent.send(sender=self.__class__, instance=self)
 
     def mark_accepted(self, new_user):
         """
