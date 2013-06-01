@@ -19,8 +19,6 @@ class LoginRequired(object):
 class LoginRequiredTemplateView(TemplateView, LoginRequired):
     pass
 
-login_required_direct_to_template = login_required(direct_to_template)
-
 
 urlpatterns = patterns('',
     url(r'^invitation/$',
