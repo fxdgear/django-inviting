@@ -10,14 +10,11 @@ def compile_translations():
                                                        import compile_messages
     except ImportError:
         return None
-    curdir = os.getcwdu()
-    os.chdir(os.path.join(os.path.dirname(__file__), 'invitation'))
     try:
         compile_messages(stderr=sys.stderr)
     except TypeError:
         # compile_messages doesn't accept stderr parameter prior to 1.2.4
-        compile_messages()
-    os.chdir(curdir)
+        compile_messages(os.path.join(os.path.dirname(__file__), 'invitation'))
 compile_translations()
 
 
