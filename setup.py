@@ -4,18 +4,18 @@ from distutils.core import setup
 from invitation import __version__, __maintainer__, __email__
 
 
-def compile_translations():
-    try:
-        from django.core.management.commands.compilemessages \
-                                                       import compile_messages
-    except ImportError:
-        return None
-    try:
-        compile_messages(stderr=sys.stderr)
-    except TypeError:
-        # compile_messages doesn't accept stderr parameter prior to 1.2.4
-        compile_messages(os.path.join(os.path.dirname(__file__), 'invitation'))
-compile_translations()
+# def compile_translations():
+#     try:
+#         from django.core.management.commands.compilemessages \
+#                                                       import compile_messages
+#     except ImportError:
+#         return None
+#     try:
+#         compile_messages(stderr=sys.stderr)
+#     except TypeError:
+#         # compile_messages doesn't accept stderr parameter prior to 1.2.4
+#         compile_messages(os.path.join(os.path.dirname(__file__), 'invitation'))
+# compile_translations()
 
 
 license_text = open('LICENSE.txt').read()
