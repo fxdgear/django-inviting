@@ -69,7 +69,7 @@ class InvitationManager(models.Manager):
                                     random.random(),
                                     user.email,
                                     email)
-            key = hashlib.sha1((key).hexdigest()
+            key = hashlib.sha1(key).hexdigest()
             invitation = self.create(user=user, email=email, key=key)
         return invitation
     invite.alters_data = True
